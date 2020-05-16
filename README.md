@@ -74,7 +74,8 @@ To asses the project RMSE values should met the next criteria. `RMSE < 0.11` for
 ### Deep down into the implementation
 
 Kalman filters consists of two steps:
-- **Prediction**
+
+**Prediction**
     <p align="center" style="text-align: center;"><img align="center" src="https://tex.s2cms.ru/svg/%0A%5Cbegin%7Balign*%7D%20%0Ax'%20%26%3D%20Fx%2B%5Cnu%20%5C%5C%0AP'%20%26%3D%20FPF%5ET%20%2B%20Q%20%5C%5C%0Awhere%20%5C%3B%20F%20%26%3D%20Motion%20%5C%20model%20%3D%20%0A%5Cbegin%7Bpmatrix%7D%201%20%26%200%20%26%20%5CDelta%20t%20%26%200%20%5C%5C%5C%200%20%26%201%20%26%200%20%26%20%5CDelta%20t%20%5C%5C%5C%200%20%26%200%20%26%201%20%26%200%20%5C%5C%5C%200%20%26%200%20%26%200%20%26%201%20%5Cend%7Bpmatrix%7D%5C%5C%0Aand%20%5C%20Q%20%26%3D%20Covariance%20%5C%20matrix%20%3D%20GQ_%5Cnu%20G%5ET%20%3D%20%5Cbegin%7Bpmatrix%7D%20%5Cfrac%7B%5CDelta%20t%5E4%7D%7B%7B4%7D%7D%5Csigma_%7Bax%7D%5E2%20%26%200%20%26%20%5Cfrac%7B%5CDelta%20t%5E3%7D%7B%7B2%7D%7D%5Csigma_%7Bax%7D%5E2%20%26%200%20%5C%5C%200%20%26%20%5Cfrac%7B%5CDelta%20t%5E4%7D%7B%7B4%7D%7D%5Csigma_%7Bay%7D%5E2%20%26%200%20%26%20%5Cfrac%7B%5CDelta%20t%5E3%7D%7B%7B2%7D%7D%5Csigma_%7Bay%7D%5E2%20%5C%5C%20%5Cfrac%7B%5CDelta%20t%5E3%7D%7B%7B2%7D%7D%5Csigma_%7Bax%7D%5E2%20%26%200%20%26%20%5CDelta%20t%5E2%5Csigma_%7Bax%7D%5E2%20%26%200%20%5C%5C%200%20%26%20%5Cfrac%7B%5CDelta%20t%5E3%7D%7B%7B2%7D%7D%5Csigma_%7Bay%7D%5E2%20%26%200%20%26%20%5CDelta%20t%5E2%5Csigma_%7Bay%7D%5E2%20%5Cend%7Bpmatrix%7D%0A%5Cend%7Balign*%7D%0A" alt="
 \begin{align*} 
 x' &amp;= Fx+\nu \\
@@ -85,7 +86,7 @@ and \ Q &amp;= Covariance \ matrix = GQ_\nu G^T = \begin{pmatrix} \frac{\Delta t
 \end{align*}
 " /></p>
 
-- **Update**
+**Update**
     <p align="center" style="text-align: center;"><img align="center" src="https://tex.s2cms.ru/svg/%0A%5Cbegin%7Balign*%7D%20%0Ay%20%26%3D%20z%20-%20Hx'%20%5C%5C%0AS%20%26%3D%20HP'H%5ET%2BR%20%5C%5C%0AK%20%26%3D%20P'H%5ET%20S%5E%7B-1%7D%20%5C%5C%0Ax%20%26%3D%20x'%20%2B%20Ky%20%5C%5C%0AP%20%26%3D%20(I%20-%20KH)P'%5C%5C%20%5C%5C%0Awhere%20%5C%20z%20%26%3D%20Measurement%20%5C%20function%2C%20%5C%5C%0AR%20%26%3D%20Measurement%20%5C%20noise%20%5C%20covariance%20%5C%20matrix%20%5C%5C%0Aand%20%5C%20%26matrix%20%5C%20H%20%5C%20for%20%5C%20radar%20%5C%20must%20%5C%20be%20%5C%20linearized%2C%20%5C%5C%0Aso%20%5C%20%26Jacobian%20%5C%20matrix%20%5C%20must%20%5C%20be%20%5C%20calculated%20%5C%5C%0AH_j%20%26%3D%20%5Cbegin%7Bbmatrix%7D%20%5Cfrac%7B%5Cpartial%20%5Crho%7D%7B%5Cpartial%20p_x%7D%20%26%20%5Cfrac%7B%5Cpartial%20%5Crho%7D%7B%5Cpartial%20p_y%7D%20%26%20%5Cfrac%7B%5Cpartial%20%5Crho%7D%7B%5Cpartial%20v_x%7D%20%26%20%5Cfrac%7B%5Cpartial%20%5Crho%7D%7B%5Cpartial%20v_y%7D%5C%5C%20%5Cfrac%7B%5Cpartial%20%5Cvarphi%7D%7B%5Cpartial%20p_x%7D%20%26%20%5Cfrac%7B%5Cpartial%20%5Cvarphi%7D%7B%5Cpartial%20p_y%7D%20%26%20%5Cfrac%7B%5Cpartial%20%5Cvarphi%7D%7B%5Cpartial%20v_x%7D%20%26%20%5Cfrac%7B%5Cpartial%20%5Cvarphi%7D%7B%5Cpartial%20v_y%7D%5C%5C%20%5Cfrac%7B%5Cpartial%20%5Cdot%7B%5Crho%7D%7D%7B%5Cpartial%20p_x%7D%20%26%20%5Cfrac%7B%5Cpartial%20%5Cdot%7B%5Crho%7D%7D%7B%5Cpartial%20p_y%7D%20%26%20%5Cfrac%7B%5Cpartial%20%5Cdot%7B%5Crho%7D%7D%7B%5Cpartial%20v_x%7D%20%26%20%5Cfrac%7B%5Cpartial%20%5Cdot%7B%5Crho%7D%7D%7B%5Cpartial%20v_y%7D%20%5Cend%7Bbmatrix%7D%0A%5Cend%7Balign*%7D%0A" alt="
 \begin{align*} 
 y &amp;= z - Hx' \\
