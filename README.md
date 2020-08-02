@@ -1,5 +1,5 @@
 ## Extended Kalman Filter
-[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+[![C++](https://img.shields.io/badge/C++-Solutions-blue.svg?style=flat&logo=c%2B%2B)](https://www.python.org/downloads/release/python-360/)
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 In this project we utilize a kalman filter to estimate the state of a moving object of interest with noisy lidar and radar measurements. For validation position (px, py) and velocity (vx, vy) of the tracking object will be compared with their ground truth using RMSE.
